@@ -9,6 +9,35 @@ npm install
 npm run dev
 ```
 
+## 安装扩展
+
+```bash
+npm i -D naive-ui
+npm i -D vfonts
+
+# For vue3
+npm i -D @vicons/utils  # vue3
+npm i -D @vicons/fluent
+npm i -D @vicons/ionicons4
+npm i -D @vicons/ionicons5
+npm i -D @vicons/antd
+npm i -D @vicons/material
+npm i -D @vicons/fa # font awesome
+npm i -D @vicons/tabler
+npm i -D @vicons/carbon
+```
+
+使用图标：参考 https://github.com/07akioni/xicons#installation
+
+```js
+import { Money16Regular } from '@vicons/fluent'
+import { Icon } from '@vicons/utils'
+
+ <Icon>
+    <Money16Regular />
+  </Icon>
+```
+
 
 # Vue 3 + TypeScript + Vite
 
