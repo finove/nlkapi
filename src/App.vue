@@ -2,36 +2,81 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import HelloWorld from './components/HelloWorld.vue'
+import APIShow from './components/APIShow.vue';
 
 import { ref } from 'vue'
-import { NDataTable, NLayoutContent, NLayoutFooter, NLayout, NMessageProvider } from 'naive-ui'
-import { NButton, darkTheme, NThemeEditor, NLayoutHeader, NSpace, NConfigProvider, useMessage } from 'naive-ui'
+import { NMessageProvider, NConfigProvider } from 'naive-ui';
+import { NLayout, NLayoutHeader, NLayoutContent, NLayoutSider } from 'naive-ui'; // NLayoutFooter
+import { NButton, NMenu, MenuOption, darkTheme, lightTheme, NThemeEditor, NSpace, useMessage } from 'naive-ui';
 const themeOverrides = {
-  Button: {
-    "heightMedium": "42px",
+  // Button: {
+  //   "heightMedium": "42px",
+  // }
+}
+const themeText = ref('light');
+const theme = ref(lightTheme);
+const apiTitle = ref('');
+const menuOptions = [{
+  label: '登录注册',
+  key: 'loginCase',
+  children: [
+    {
+      label: '检测帐号',
+      data: 'haha',
+      key: 'checkaccount'
+    }, {
+      label: '请求验证码',
+      data: 'haha',
+      key: 'sendcode'
+    }
+  ]
+}];
+function changeTheme() {
+  if (themeText.value == 'light') {
+    themeText.value = 'dark';
+    theme.value = darkTheme;
+  } else {
+    themeText.value = 'light';
+    theme.value = lightTheme;
   }
 }
-const theme = ref(null);
+function menuChange(key: string, item: MenuOption) {
+  console.log(key, item);
+  apiTitle.value = item.label;
+}
+
 </script>
 
 <template>
   <n-message-provider>
     <n-config-provider :theme="theme" :theme-overrides="themeOverrides">
-      <n-button type="primary"> 妹妹小 </n-button>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://vuejs.org/" target="_blank">
-          <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-        </a>
-      </div>
-      <HelloWorld msg="Vite + Vue" />
+      <n-layout position="absolute">
+        <n-layout-header bordered>
+          <n-space justify="space-around" size="large">
+            <n-button type="primary" @click="changeTheme()"> {{ themeText !== "light" ? "浅色" : "深色" }} </n-button>
+          </n-space>
+        </n-layout-header>
+        <n-layout has-sider>
+          <n-layout-sider bordered>
+            <n-menu :collapsed="false" :on-update:value="menuChange" :options="menuOptions" :collapsed-width="64">
+            </n-menu>
+          </n-layout-sider>
+          <n-layout-content :native-scrollbar="false">
+            <APIShow :title="apiTitle"></APIShow>
+            <HelloWorld msg="ok"></HelloWorld>
+          </n-layout-content>
+        </n-layout>
+      </n-layout>
     </n-config-provider>
   </n-message-provider>
 </template>
 
 <style scoped>
+.n-layout-header {
+  /* background: rgba(128, 128, 128, 0.2); */
+  padding: 8px;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
