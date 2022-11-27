@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
 import APIShow from './components/APIShow.vue';
 
 import { ref } from 'vue'
@@ -15,18 +14,29 @@ const themeOverrides = {
 }
 const themeText = ref('light');
 const theme = ref(lightTheme);
-const apiTitle = ref('');
-const menuOptions = [{
+const apiTitle = ref<string | unknown>('');
+const apiDesc = ref({});
+const menuOptions: MenuOption[] = [{
   label: '登录注册',
   key: 'loginCase',
   children: [
     {
       label: '检测帐号',
-      data: 'haha',
+      data: {
+        url: '/nop.txt',
+        method: 'GET',
+        header: [],
+        body: ''
+      },
       key: 'checkaccount'
     }, {
       label: '请求验证码',
-      data: 'haha',
+      data: {
+        url: '/update',
+        method: 'POST',
+        header: [],
+        body: 'more data'
+      },
       key: 'sendcode'
     }
   ]
@@ -43,6 +53,7 @@ function changeTheme() {
 function menuChange(key: string, item: MenuOption) {
   console.log(key, item);
   apiTitle.value = item.label;
+  apiDesc.value = Object.assign({}, item.data);
 }
 
 </script>
@@ -62,8 +73,9 @@ function menuChange(key: string, item: MenuOption) {
             </n-menu>
           </n-layout-sider>
           <n-layout-content :native-scrollbar="false">
-            <APIShow :title="apiTitle"></APIShow>
-            <HelloWorld msg="ok"></HelloWorld>
+            <n-space>
+              <APIShow :title="apiTitle" :data="apiDesc"></APIShow>
+            </n-space>
           </n-layout-content>
         </n-layout>
       </n-layout>
