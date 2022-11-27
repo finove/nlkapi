@@ -74,7 +74,7 @@ function doRequest() {
     let myRequest = new Request(origin.url, {
         method: origin.method,
         headers: header,
-        body: origin.body
+        body: origin.method != 'GET' ? origin.body : null
     })
     fetch(myRequest).then(response => {
         var headers: string[] = [];

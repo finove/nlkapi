@@ -1,0 +1,28 @@
+[
+    {
+        "label": "登录注册3",
+        "key": "loginCase",
+        "children": [
+            {
+                "label": "检测帐号3",
+                "data": {
+                    "url": "/nop.txt",
+                    "method": "GET",
+                    "header": [],
+                    "body": ""
+                },
+                "key": "checkaccount"
+            },
+            {
+                "label": "请求验证码3",
+                "data": {
+                    "url": "/update",
+                    "method": "POST",
+                    "header": [],
+                    "body": "more data"
+                },
+                "key": "sendcode"
+            }
+        ]
+    }
+]

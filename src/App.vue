@@ -14,9 +14,10 @@ const themeOverrides = {
 }
 const themeText = ref('light');
 const theme = ref(lightTheme);
+// const message = useMessage();
 const apiTitle = ref<string | unknown>('');
 const apiDesc = ref({});
-const menuOptions: MenuOption[] = [{
+var menuOptions = ref<MenuOption[]>([{
   label: '登录注册',
   key: 'loginCase',
   children: [
@@ -40,7 +41,7 @@ const menuOptions: MenuOption[] = [{
       key: 'sendcode'
     }
   ]
-}];
+}]);
 function changeTheme() {
   if (themeText.value == 'light') {
     themeText.value = 'dark';
@@ -49,6 +50,36 @@ function changeTheme() {
     themeText.value = 'light';
     theme.value = lightTheme;
   }
+}
+function userBSCMenu() {
+  fetch('/bsc.json').then(response => {
+    return response.json()
+  }).then(response => {
+    console.log(response);
+    menuOptions.value = response;
+  }).catch(err => {
+    console.error('get bsc menu fail');
+  });
+}
+function userSSCMenu() {
+  fetch('/ssc.json').then(response => {
+    return response.json()
+  }).then(response => {
+    console.log(response);
+    menuOptions.value = response;
+  }).catch(err => {
+    console.error('get ssc menu fail');
+  });
+}
+function useAPIMenu() {
+  fetch('/api.json').then(response => {
+    return response.json()
+  }).then(response => {
+    console.log(response);
+    menuOptions.value = response;
+  }).catch(err => {
+    console.error('get api menu fail');
+  });
 }
 function menuChange(key: string, item: MenuOption) {
   console.log(key, item);
@@ -63,8 +94,11 @@ function menuChange(key: string, item: MenuOption) {
     <n-config-provider :theme="theme" :theme-overrides="themeOverrides">
       <n-layout position="absolute">
         <n-layout-header bordered>
-          <n-space justify="space-around" size="large">
-            <n-button type="primary" @click="changeTheme()"> {{ themeText !== "light" ? "浅色" : "深色" }} </n-button>
+          <n-space justify="center" size="large">
+            <n-button type="primary" @click="useAPIMenu()">API</n-button>
+            <n-button type="primary" @click="userBSCMenu()">BSC</n-button>
+            <n-button type="primary" @click="userSSCMenu()">SSC</n-button>
+            <n-button type="default" @click="changeTheme()"> {{ themeText !== "light" ? "浅色" : "深色" }} </n-button>
           </n-space>
         </n-layout-header>
         <n-layout has-sider>
